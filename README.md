@@ -6,7 +6,7 @@ Pengu 围绕这个问题做短语料条件下的风格模拟。它从少量文�
 
 不用准备一位作者的完整作品，也不需要训练或微调模型。你提供短语料和新任务，通过四份大纲选择方向，再比较六篇候选正文，决定留下哪一版。
 
-Pengu 将这套方法放进了一个本地运行的像素风工作台，支持中文科普、观点短文、杂文／散文，以及独立的英文写作流程。当前提供 macOS 源码启动包，需要自行配置模型 API。
+Pengu 将这套方法放进了一个本地运行的像素风工作台，支持中文科普、观点短文、杂文／散文，以及独立的英文写作流程。当前提供 macOS 源码启动包，需要用户自行安装 Python 并配置模型 API。
 
 ## 为什么从短语料出发
 
@@ -63,10 +63,12 @@ Pengu 尝试把短语料转化为两组共同工作的生成条件：一组约�
 
 ## 下载与启动
 
-公开包通过本仓库的 [Releases](https://github.com/O0tter/Pengu/releases) 提供。下载 `Pengu-public-20260914.zip` 后完整解压，保留目录结构。
+从 [最新公开版 Release](https://github.com/O0tter/Pengu/releases/latest) 下载 `Pengu-public-20261108-r1.zip` 并完整解压，保留目录结构。请使用新的空目录解压修正版，不要覆盖已有的自用配置与侧写。
 
-1. 准备本机 Python，建议使用 Python 3.12。
-2. 双击包内 `setup_macos.command`，创建虚拟环境并安装锁定依赖。首次安装需要联网。
+完整可运行源码位于上述具名 ZIP 附件中；不要把 GitHub 自动生成的 `Source code` 文档仓库归档当作应用安装包。
+
+1. 从 [Python 官网](https://www.python.org/downloads/macos/) 安装 **CPython 3.9–3.13，推荐 3.13**。本版暂不支持 Python 3.14 及以上。
+2. **首次先双击 `setup_macos.command`**，创建虚拟环境并安装锁定依赖。首次安装需要联网；看到“安装完成”后再进行下一步。
 3. 双击同目录的 `StartPengu.app` 或 `start_pengu.command`，默认在浏览器打开 `http://127.0.0.1:5601/`。不要单独移动启动 App。
 4. 打开页面顶部的 **API**，填写服务商地址、模型和 API Key。测试连接成功后，还需要点击“保存并启用”。
 5. 使用完成后，通过页面中的“停止 Pengu”或 `stop_pengu.command` 结束运行。
@@ -77,6 +79,14 @@ Pengu 尝试把短语料转化为两组共同工作的生成条件：一组约�
 zsh setup_macos.command
 zsh start_pengu.command
 ```
+
+如果电脑装了多个 Python，可运行 `python3 --version` 查看默认版本，用 `PYTHON_BIN=python3.13 zsh setup_macos.command` 指定已经安装的解释器，也可使用其绝对路径。安装器会检查解释器和已有虚拟环境的版本，依赖安装失败时会明确报错，不会提示安装完成。
+
+本修正版针对 Python 3.13 调整 NumPy 依赖，Python 3.9–3.12 保留原依赖。安装器要求 NumPy 使用预编译包，避免进入原先失败的源码编译过程。
+
+本轮从最终 ZIP 分别在 Python 3.9.6 和 3.13.17 的新环境中安装成功，两者各通过 141 项 Python 回归；前端 11 项回归通过，并验证了 Python 3.13 下的 App 入口与本地网页。详见 [安装验收记录](docs/installation-r1-20261108.md)。测试使用临时数据和模型替身，不代表真实模型生成质量。
+
+界面运行在本机 `http://127.0.0.1:5601/`，本次没有提供公网在线站点。电脑需要运行 Pengu 才能访问这个页面。
 
 这是源码启动包，不内置 Python 或模型，未进行 Apple 签名公证。AI 请求由你配置的服务商处理并计费。安装细节、模型设置及版本变更见压缩包内的 README 和 RELEASE_NOTES。
 
